@@ -10,6 +10,7 @@ phases:
   post_build:
     commands:
       - aws s3 sync dist s3://travelgenius-ui --delete
+      - aws cloudfront create-invalidation --distribution-id E1YZXWHY4NFBWA --paths '/*'
 
 cache:
   paths:
