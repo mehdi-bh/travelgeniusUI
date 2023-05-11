@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [reactRefresh()],
-  css: {
-    postcss: './postcss.config.cjs',
-  },
+  plugins: [react()],
   esbuild: {
-    jsxInject: `import React from 'react'`,
+    jsxInject: `import React from 'react';`,
   },
-});
+  define: {
+    "global": {},
+  }
+})
