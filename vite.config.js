@@ -7,6 +7,6 @@ export default defineConfig({
     jsxInject: `import React from 'react';`,
   },
   define: {
-    "global": {},
+    'global.Buffer': false,
   }
 })
