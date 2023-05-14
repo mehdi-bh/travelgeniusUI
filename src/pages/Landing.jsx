@@ -2,31 +2,29 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import config from '../../config.json';
+import {PLACEHOLDERS, EXAMPLE_CITIES} from "../constants/Landing.js";
 
 function Landing() {
     const navigate = useNavigate();
+    const accessToken = config.mapboxAccessToken;
 
-    const accessToken = "pk.eyJ1IjoibWVoZGliaCIsImEiOiJjbGhsdmd1ajUwNndrM2ptbmN0amlhOG8yIn0.0amrf-21qnzlUSF7K41G6w";
-
-    const placeholders = ['Try: New York City', 'Try: Brussels, Belgium', 'Try: Los Angeles, USA'];
-    const [placeholder, setPlaceholder] = useState(placeholders[0]);
-
-    const [citySelected, setCitySelected] = useState(false);
-    const [suggestions, setSuggestions] = useState([]);
-
-    const exampleCities = ['New York City, United States', 'Los Angeles, United States', 'Brussels, Belgium'];
-    const [isMenuExpanded, setIsMenuExpanded] = useState(true);
-
+    // References to the map and geocoder
     const mapContainerRef = useRef(null);
     const geocoderContainerRef = useRef(null);
 
     const mapRef = useRef(null);
     const geocoderRef = useRef(null);
 
+    const [placeholder, setPlaceholder] = useState(PLACEHOLDERS[0]);
+    const [suggestions, setSuggestions] = useState([]);
+    const [isMenuExpanded, setIsMenuExpanded] = useState(true);
+
     let animationId = null;
 
     mapboxgl.accessToken = accessToken;
 
+    // Initialize the map and geocoder when the component mounts
     useEffect(() => {
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
@@ -100,11 +98,12 @@ function Landing() {
         };
     }, []);
 
+    // Change the placeholder text every 2 seconds
     useEffect(() => {
         let index = 0;
         const intervalId = setInterval(() => {
-            index = (index + 1) % placeholders.length;
-            geocoderRef.current._inputEl.placeholder = placeholders[index];
+            index = (index + 1) % PLACEHOLDERS.length;
+            geocoderRef.current._inputEl.placeholder = PLACEHOLDERS[index];
         }, 2000);
 
         return () => clearInterval(intervalId);
@@ -117,15 +116,31 @@ function Landing() {
             mapRef.current.flyTo({ center, zoom: 10 });
         }
 
-        setCitySelected(true);
         setSuggestions([]);
     };
 
-    return (
-        <>
-            <div ref={mapContainerRef} />
-            <div className="geocoder-parent">
-                <div ref={geocoderContainerRef} />
+    // Render the example cities menu
+    const ExampleCities = () => {
+        return (
+            <>
+                <div className="city-list-button" onClick={() => setIsMenuExpanded(!isMenuExpanded)}>
+                    <span className={isMenuExpanded ? 'chevron up' : 'chevron down'}>&gt;</span> Example Cities
+                </div>
+                <ul className={`city-list ${isMenuExpanded ? 'expanded' : 'collapsed'}`}>
+                    {EXAMPLE_CITIES.map((city) => (
+                        <li key={city} onClick={() => handleCityClick(city)}>
+                            {city}
+                        </li>
+                    ))}
+                </ul>
+            </>
+        );
+    }
+
+    // Render the suggestions menu
+    const Suggestions = () => {
+        return (
+            <>
                 <div className="suggestion-list">
                     {suggestions.map((suggestion) => (
                         <div key={suggestion} className="suggestion" onClick={() => handleCityClick(suggestion)}>
@@ -133,17 +148,19 @@ function Landing() {
                         </div>
                     ))}
                 </div>
+            </>
+        );
+    };
+
+    return (
+        <>
+            <div ref={mapContainerRef} />
+
+            <div className="geocoder-parent">
+                <div ref={geocoderContainerRef} />
+                <Suggestions />
                 <div className="separator" />
-                <div className="city-list-button" onClick={() => setIsMenuExpanded(!isMenuExpanded)}>
-                    <span className={isMenuExpanded ? 'chevron up' : 'chevron down'}>&gt;</span> Example Cities
-                </div>
-                <ul className={`city-list ${isMenuExpanded ? 'expanded' : 'collapsed'}`}>
-                    {exampleCities.map((city) => (
-                        <li key={city} onClick={() => handleCityClick(city)}>
-                            {city}
-                        </li>
-                    ))}
-                </ul>
+                <ExampleCities />
             </div>
         </>
     );
