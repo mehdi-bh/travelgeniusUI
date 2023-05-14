@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^4.6.1",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "@mapbox/mapbox-sdk": "^0.15.1",
     "aws-amplify": "^5.2.0",
     "axios": "^1.4.0",
+    "mapbox-gl": "^2.14.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1"

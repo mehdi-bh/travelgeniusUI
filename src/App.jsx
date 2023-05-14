@@ -5,9 +5,9 @@ import Login from './pages/Login';
 
 function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Landing />} />
+        <Router className="router">
+            <Routes className="routes">
+                <Route path="/" element={<Landing className="app" />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
