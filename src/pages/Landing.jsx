@@ -4,6 +4,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import config from '../../config.json';
 import {PLACEHOLDERS, EXAMPLE_CITIES} from "../constants/Landing.js";
+import {Button, TextField} from "@aws-amplify/ui-react";
 
 function Landing() {
     const navigate = useNavigate();
@@ -19,6 +20,8 @@ function Landing() {
     const [placeholder, setPlaceholder] = useState(PLACEHOLDERS[0]);
     const [suggestions, setSuggestions] = useState([]);
     const [isMenuExpanded, setIsMenuExpanded] = useState(true);
+
+    const [selectedPlace, setSelectedPlace] = useState(null);
 
     let animationId = null;
 
@@ -69,6 +72,7 @@ function Landing() {
 
             geocoder.on('result', () => {
                 cancelAnimationFrame(animationId);
+                setSelectedPlace(geocoder._inputEl.value);
             });
 
             geocoderRef.current = geocoder;
@@ -152,19 +156,75 @@ function Landing() {
         );
     };
 
+    const [adults, setAdults] = useState(1);
+    const [kids, setKids] = useState(0);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
+    const incrementAdults = () => setAdults(adults + 1);
+    const decrementAdults = () => setAdults(adults > 1 ? adults - 1 : 1);
+
+    const incrementKids = () => setKids(kids + 1);
+    const decrementKids = () => setKids(kids > 0 ? kids - 1 : 0);
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        alert(`You are booking a trip to ${selectedPlace} for ${adults} adults and ${kids} kids, starting on ${startDate} and ending on ${endDate}`);
+    };
+
+    const Form = () => {
+        return (
+            <form onSubmit={handleFormSubmit} className="custom-form">
+                <div className="row">
+                    <div>
+                        <label>Adults</label>
+                        <button type="button" onClick={decrementAdults}>-</button>
+                        <input type="number" value={adults} readOnly />
+                        <button type="button" onClick={incrementAdults}>+</button>
+                    </div>
+                    <div>
+                        <label>Kids</label>
+                        <button type="button" onClick={decrementKids}>-</button>
+                        <input type="number" value={kids} readOnly />
+                        <button type="button" onClick={incrementKids}>+</button>
+                    </div>
+                </div>
+                <div className="row">
+                    <div>
+                        <label>Start Date</label>
+                        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                    </div>
+                    <div>
+                        <label>End Date</label>
+                        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        );
+    }
+
+
     return (
         <>
             <div ref={mapContainerRef} />
 
             <div className="geocoder-parent">
-                <div ref={geocoderContainerRef} />
-                <Suggestions />
-                <div className="separator" />
-                <ExampleCities />
+                {
+                    selectedPlace !== null
+                        ?
+                        <Form/>
+                        :
+                        <>
+                            <div ref={geocoderContainerRef} />
+                            <Suggestions />
+                            <div className="separator" />
+                            <ExampleCities />
+                        </>
+                }
             </div>
         </>
     );
-
 }
 
 export default Landing;

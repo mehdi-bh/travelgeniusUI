@@ -151,3 +151,64 @@ body, html, #root {
     background-color: rgba(189, 189, 189, 0.6);
     margin: 10px 0;
 }
+
+
+.custom-form {
+    color: rgba(189,189,189);
+    padding: 30px 20px;
+    width: 100%;
+    font-size: 0.8em;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.row div {
+    display: flex;
+    align-items: center;
+}
+
+.row div label {
+    margin-right: 10px;
+}
+
+.row div input[type="number"] {
+    width: 100px;
+    text-align: center;
+    color: rgba(189,189,189);
+    background-color: rgba(9, 9, 9);
+    border: 1px solid rgba(189,189,189, 0.6);
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.row div input[type="date"] {
+    color: rgba(189,189,189);
+    background-color: rgba(9, 9, 9);
+    border: 1px solid rgba(189,189,189, 0.6);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+}
+
+button{
+    color: rgba(189,189,189);
+    background-color: rgba(9, 9, 9);
+    border: 1px solid rgba(189,189,189, 0.6);
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: rgba(189,189,189); /* This is a light color, contrast to the normal state */
+    color: rgba(9, 9, 9); /* Change text color to dark on hover */
+}
+
+button[type="submit"] {
+    width: 100%;
+}
+
