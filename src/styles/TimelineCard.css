@@ -1,0 +1,15 @@
+.badge-container {
+    position: relative;
+}
+
+.badge-container::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: calc(100% - 70px);
+    left: 50%;
+    top: 35px;
+    bottom: 35px;
+    background: linear-gradient(to bottom, transparent, darkgray, transparent);
+    background-size: 100% 10px;
+}

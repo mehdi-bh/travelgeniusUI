@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import '../styles/Landing.css'
 import config from '../../config.json';
 import {PLACEHOLDERS, EXAMPLE_CITIES} from "../constants/Landing.js";
-import {Button, TextField} from "@aws-amplify/ui-react";
 
 function Landing() {
     const navigate = useNavigate();
@@ -22,6 +22,7 @@ function Landing() {
     const [isMenuExpanded, setIsMenuExpanded] = useState(true);
 
     const [selectedPlace, setSelectedPlace] = useState(null);
+    const [selectedPlaceCoordinates, setSelectedPlaceCoordinates] = useState([0, 0]);
 
     let animationId = null;
 
@@ -70,9 +71,10 @@ function Landing() {
                 }
             });
 
-            geocoder.on('result', () => {
+            geocoder.on('result', (e) => {
                 cancelAnimationFrame(animationId);
                 setSelectedPlace(geocoder._inputEl.value);
+                setSelectedPlaceCoordinates(e.result.geometry.coordinates);
             });
 
             geocoderRef.current = geocoder;
@@ -169,7 +171,7 @@ function Landing() {
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        alert(`You are booking a trip to ${selectedPlace} for ${adults} adults and ${kids} kids, starting on ${startDate} and ending on ${endDate}`);
+        navigate('/trip', { state: { selectedPlace, selectedPlaceCoordinates, adults, kids, startDate, endDate }});
     };
 
     const Form = () => {
