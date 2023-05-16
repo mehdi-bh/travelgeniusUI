@@ -1,6 +1,6 @@
-import '../styles/TimelineCard.css'
+import '../styles/TimelineActivityCard.css'
 import TimelineIndicator from "./TimelineIndicator.jsx";
-const TimelineCard = ({ imgSrc, title, description, startTime, endTime }) => (
+const TimelineActivityCard = ({ type, imgSrc, title, description, startTime, endTime }) => (
     <div className="flex flex-col bg-white border border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800">
         <TimelineIndicator startTime={startTime} endTime={endTime}/>
         <div className="w-full h-48 md:w-48 md:h-48 overflow-hidden relative flex-shrink-0">
@@ -13,4 +13,4 @@ const TimelineCard = ({ imgSrc, title, description, startTime, endTime }) => (
     </div>
 );
 
-export default TimelineCard;
+export default TimelineActivityCard;

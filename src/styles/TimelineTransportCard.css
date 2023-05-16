@@ -1,15 +1,20 @@
-.badge-container {
+.time-indicator-transport {
     position: relative;
 }
 
-.badge-container::after {
+.time-indicator-transport::after {
     content: "";
     position: absolute;
     width: 1px;
-    height: calc(100% - 70px);
-    left: 50%;
-    top: 35px;
-    bottom: 35px;
+    height: 100%;
+    left: 6%;
     background: linear-gradient(to bottom, transparent, darkgray, transparent);
     background-size: 100% 10px;
+}
+
+.transport-selector {
+    position: relative;
+    z-index: 1;
+    left: 9%;
+    width: 100px;
 }
