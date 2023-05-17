@@ -10,7 +10,7 @@ function Trip() {
     const {selectedPlace, selectedPlaceCoordinates, adults, kids, startDate, endDate} = location.state;
 
     const timelineData = [
-        { title: "CN Tower", imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', startTime: '11:00', endTime: '12:00', type: 'activity' },
+        { title: "CN Tower", imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', rating: "4,7", neighborhood: "Spadina", startTime: '11:00', endTime: '12:00', type: 'activity' },
         {
             type: 'transport',
             propositions: [
@@ -19,7 +19,7 @@ function Trip() {
                 { transportType: 'walk', startTime: '14:00', endTime: '14:30', duration: '30 min' },
             ]
         },
-        { title: "Ripley's Aquarium of Canada", imgSrc: 'https://app.rciis.ca/staff/docs/student-activities/Media%20-%2059%202023-03-02%20at%204.58.57%20PM.jpg', description: "Ripley's Aquarium is one of the largest indoor aquariums in North America.", startTime: '13:00', endTime: '14:00', type: 'activity' },
+        { title: "Ripley's Aquarium of Canada", imgSrc: 'https://app.rciis.ca/staff/docs/student-activities/Media%20-%2059%202023-03-02%20at%204.58.57%20PM.jpg', description: "Ripley's Aquarium is one of the largest indoor aquariums in North America.", rating: "4,2", neighborhood: "Little Italy", startTime: '13:00', endTime: '14:00', type: 'activity' },
         {
             type: 'transport',
             propositions: [
@@ -28,7 +28,7 @@ function Trip() {
                 { transportType: 'walk', startTime: '14:00', endTime: '14:30', duration: '30 min' },
             ]
         },
-        { title: "CN Tower", imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', startTime: '11:00', endTime: '12:00', type: 'activity' },
+        { title: "CN Tower", imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', rating: "4,7", neighborhood: "Spadina", startTime: '11:00', endTime: '12:00', type: 'activity' },
     ];
 
     return (
