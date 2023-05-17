@@ -1,0 +1,20 @@
+.custom-marker {
+    transition: transform 0.05s ease-in-out;
+}
+
+.custom-marker:hover {
+    transform: translate(-50%, -100%) scale(2.0);
+}
+
+.custom-marker::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #FFF;
+    transform: translateX(-50%);
+}

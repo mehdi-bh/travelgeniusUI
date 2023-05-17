@@ -1,16 +1,17 @@
 import { useLocation } from 'react-router-dom';
 import SideMap from "../components/SideMap.jsx";
 import TimelineActivityCard from "../components/TimelineActivityCard.jsx";
-import Navbar from "../components/Navbar.jsx";
 import * as TimelineCardTypes from "../constants/TimelineCardTypes.js";
 import TimelineTransportCard from "../components/TimelineTransportCard.jsx";
+import {useState} from "react";
 
 function Trip() {
     const location = useLocation();
     const {selectedPlace, selectedPlaceCoordinates, adults, kids, startDate, endDate} = location.state;
+    const [hoveredCard, setHoveredCard] = useState(null);
 
     const timelineData = [
-        { title: "CN Tower", imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', rating: "4,7", neighborhood: "Spadina", startTime: '11:00', endTime: '12:00', type: 'activity' },
+        { id: "1", title: "CN Tower", coordinates: [-73.935242, 40.740610], imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', rating: 4.7, neighborhood: "Spadina", startTime: '11:00', endTime: '12:00', type: 'activity', details: "fdp" },
         {
             type: 'transport',
             propositions: [
@@ -19,7 +20,7 @@ function Trip() {
                 { transportType: 'walk', startTime: '14:00', endTime: '14:30', duration: '30 min' },
             ]
         },
-        { title: "Ripley's Aquarium of Canada", imgSrc: 'https://app.rciis.ca/staff/docs/student-activities/Media%20-%2059%202023-03-02%20at%204.58.57%20PM.jpg', description: "Ripley's Aquarium is one of the largest indoor aquariums in North America.", rating: "4,2", neighborhood: "Little Italy", startTime: '13:00', endTime: '14:00', type: 'activity' },
+        { id: "2", title: "Ripley's Aquarium of Canada", coordinates: [-73.935242, 40.720610], imgSrc: 'https://app.rciis.ca/staff/docs/student-activities/Media%20-%2059%202023-03-02%20at%204.58.57%20PM.jpg', description: "Ripley's Aquarium is one of the largest indoor aquariums in North America.", rating: 4.2, neighborhood: "Little Italy", startTime: '13:00', endTime: '14:00', type: 'activity', details: "fdp" },
         {
             type: 'transport',
             propositions: [
@@ -28,8 +29,10 @@ function Trip() {
                 { transportType: 'walk', startTime: '14:00', endTime: '14:30', duration: '30 min' },
             ]
         },
-        { title: "CN Tower", imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', rating: "4,7", neighborhood: "Spadina", startTime: '11:00', endTime: '12:00', type: 'activity' },
+        { id: "3", title: "CN Tower", coordinates: [-73.935242, 40.730610], imgSrc: 'https://s3.amazonaws.com/crowdriff-media/full/2a93101a919000f5478a0f1d162886f752139642b0fd5b47c9905713f7ba5efc.jpg', description: 'What a big tower wow', rating: 4.7, neighborhood: "Spadina", startTime: '11:00', endTime: '12:00', type: 'activity', details: "fdp" },
     ];
+
+    const places = timelineData.filter((item) => item.type === TimelineCardTypes.ACTIVITY);
 
     return (
         <>
@@ -54,7 +57,13 @@ function Trip() {
                         {
                             timelineData.map((item) => {
                                 if (item.type === TimelineCardTypes.ACTIVITY) {
-                                    return (<TimelineActivityCard {...item} />);
+                                    return (
+                                        <TimelineActivityCard
+                                            {...item}
+                                            onMouseEnter={() => setHoveredCard(item.id)}
+                                            onMouseLeave={() => setHoveredCard(null)}
+                                        />
+                                    );
                                 }
                                 else if (item.type === TimelineCardTypes.TRANSPORT) {
                                     return (<TimelineTransportCard {...item} />);
@@ -72,7 +81,7 @@ function Trip() {
                     </div>
                 </div>
                 <div className="trip-map w-1/2 h-full">
-                    <SideMap center={selectedPlaceCoordinates} className="w-full h-full" />
+                    <SideMap places={places} center={selectedPlaceCoordinates} hoveredCard={hoveredCard} className="w-full h-full" />
                 </div>
             </div>
         </>
