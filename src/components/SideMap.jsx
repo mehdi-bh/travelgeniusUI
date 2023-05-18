@@ -5,7 +5,7 @@ import config from '../../config.json';
 
 function SideMap({ places, center, hoveredCard }) {
     const mapContainerRef = useRef(null);
-    const markerRef = useRef(null);
+    const markerRefs = useRef({});
     const mapRef = useRef(null);
 
     const accessToken = config.mapboxAccessToken;
@@ -17,7 +17,7 @@ function SideMap({ places, center, hoveredCard }) {
             container: mapContainerRef.current,
             style: 'mapbox://styles/mapbox/streets-v12',
             center: center,
-            zoom: 10,
+            zoom: 12,
             attributionControl: false
         });
 
@@ -30,9 +30,16 @@ function SideMap({ places, center, hoveredCard }) {
     }, [center]);
 
     useEffect(() => {
+        // Remove old markers if they exist
+        for (let id in markerRefs.current) {
+            markerRefs.current[id].marker.remove();
+        }
+
+        // Clear markerRefs
+        markerRefs.current = {};
+
         for (const place of places) {
             const container = document.createElement('div');
-
             const el = document.createElement('div');
             el.className = 'custom-marker';
 
@@ -62,8 +69,8 @@ function SideMap({ places, center, hoveredCard }) {
                 .setLngLat(place.coordinates)
                 .addTo(mapRef.current);
 
-            // Save the reference to the marker
-            markerRef.current = marker;
+            // Save the reference to the marker and its element
+            markerRefs.current[place.id] = { marker, el };
 
             // Add mouseenter and mouseleave events to the marker
             container.addEventListener('mouseenter', () => {
@@ -74,16 +81,12 @@ function SideMap({ places, center, hoveredCard }) {
                 el.style.transform = 'scale(1)';
             });
 
+            // adjust size based on whether this marker's place is the hovered card
             if (place.id === hoveredCard) {
                 el.style.transform = 'scale(1.2)';
             } else {
                 el.style.transform = 'scale(1)';
             }
-
-            // Create a new marker with the custom element and add it to the map
-            markerRef.current = new mapboxgl.Marker(container)
-                .setLngLat(place.coordinates)
-                .addTo(mapRef.current);
         }
     }, [places, hoveredCard]);
 

@@ -41,6 +41,7 @@ const TimelineActivityCard = ({ id, type, imgSrc, title, description, startTime,
                 </div>
             </div>
         </div>
+
         <ActivityDetailsModal id={id} title={title} details={details}></ActivityDetailsModal>
     </>
 
